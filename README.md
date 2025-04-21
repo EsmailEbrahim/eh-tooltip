@@ -6,8 +6,7 @@
 
 - **String** or **object** binding syntax  
 - Eight placement options (`top`, `bottom`, `left`, `right`, `top-left`, `top-right`, `bottom-left`, `bottom-right`)  
-- Optional **clickable** tooltips that stay open until you click outside  
-- Tailwind‑friendly styling via `@apply` in the CSS  
+- Optional **clickable** tooltips that stay open until you click outside
 
 ---
 
@@ -42,12 +41,12 @@ app.mount('#app')
 
 ```html
 <!-- simple string -->
-<button v-tooltip="'Save changes'">Save</button>
+<button v-eh_tooltip="'Save changes'">Save</button>
 
 <!-- with options -->
 <span
-  v-tooltip="{
-    description: 'Back to home page',
+  v-eh_tooltip="{
+    text: 'Back to home page',
     location: 'bottom',
     clickable: true
   }"
@@ -56,17 +55,32 @@ app.mount('#app')
 </span>
 ```
 
+### HTML Example
+```html
+<span v-eh_tooltip="{ html: true, text: '<b>Bold</b> text' }">
+  Hover for HTML
+</span>
+```
+
 ---
 
-## Directive API
+### Directive API
 
-Pass **either** a string **or** an object to `v-tooltip`:
+Pass **either** a string **or** an object to `v-eh_tooltip`:
 
-| Prop         | Type      | Default  | Description                                            |
-| ------------ | --------- | -------- | ------------------------------------------------------ |
-| `description`| `string`  | —        | The HTML/text to display inside the tooltip            |
-| `location`   | `string`  | `null`   | Position relative to the element (see “Placements”)    |
-| `clickable`  | `boolean` | `false`  | If `true`, stays open until you click outside          |
+| Prop           | Type      | Default     | Description                                            |
+|----------------|-----------|-------------|--------------------------------------------------------|
+| `text`         | `string`  | —           | The HTML/text to display inside the tooltip            |
+| `location`     | `string`  | `null`      | Position relative to the element (see “Placements”)    |
+| `clickable`    | `boolean` | `false`     | If `true`, stays open until you click outside          |
+| `html`         | `boolean` | `false`     | Allow HTML content                                     |
+| `background`   | `string`  | `#000000`   | Background color                                       |
+| `textColor`    | `string`  | `#FFFFFF`   | Text color                                             |
+| `borderColor`  | `string`  | `#000000`   | Border color                                           |
+| `darkMode`     | `boolean` | `false`     | Force dark theme                                       |
+| `padding`      | `string`  | `8px`       | Tooltip padding                                        |
+| `borderRadius` | `string`  | `4px`       | Border radius                                          |
+| `maxWidth`     | `string`  | `300px`     | Maximum width                                          |
 
 ### Placements
 
@@ -85,13 +99,33 @@ If you omit `location`, the tooltip will follow your mouse cursor (and automatic
 
 ## Styles & Customization
 
-The bundled CSS lives in `dist/EH-Tooltip.css`. It uses Tailwind’s `@apply` so you can override or extend:
+Customize via CSS variables in your global styles. These variables will automatically apply to all tooltips:
 
 ```css
-/* e.g. override border radius */
-.tooltip-content {
-  @apply rounded-lg;
+:root {
+  --eh-tooltip-bg: #2d3748;
+  --eh-tooltip-text: #f7fafc;
+  --eh-tooltip-border: #4a5568;
 }
+
+.dark { /* For dark mode */
+  --eh-tooltip-bg-dark: #1a202c;
+  --eh-tooltip-text-dark: #f7fafc;
+}
+```
+
+Or override per-tooltip using props:
+
+```html
+<span
+  v-eh_tooltip="{
+    text: 'Custom colored',
+    background: '#4fd1c5',
+    textColor: '#1a202c'
+  }"
+>
+  Hover me
+</span>
 ```
 
 You can also import the CSS directly in your own stylesheet:
@@ -131,3 +165,8 @@ Released under the [MIT License](LICENSE).
 ## Author
 
 - [Esmail Ebrahim Hamza](https://github.com/EsmailEbrahim)
+
+---
+
+> **Security Note**  
+> When using `html: true`, ensure you sanitize any user-provided content to prevent XSS attacks.

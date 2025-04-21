@@ -11,12 +11,13 @@ export default {
   ],
   plugins: [
     postcss({
-      extract: true,      // writes dist/index.css
+      extract: 'EH-Tooltip.css',
+      // extract: true,      // writes dist/index.css
       modules: false,
       minimize: true
     }),
     resolve(),            // must come after postcss
     commonjs(),
-    babel({ babelHelpers: 'bundled', extensions: ['.js'], exclude: 'node_modules/**' })
+    babel({ babelHelpers: 'bundled', extensions: ['.js'], exclude: 'node_modules/**' }),
   ]
 };

@@ -5,29 +5,36 @@ export default {
         const spacing = 10;
         let openedByClick = false;
 
-        let description, location, clickable;
-        if (typeof binding.value === 'string') {
-            description = binding.value;
-            location = null;
-            clickable = false;
-        } else if (typeof binding.value === 'object') {
-            description = binding.value.description;
-            location = binding.value.location || null;
-            clickable = binding.value.clickable || false;
-        } else {
-            description = '';
-            location = null;
-            clickable = false;
-        }
+        const options = typeof binding.value === 'object' ? binding.value : { text: binding.value };
+        const {
+            text = '',
+            location = null,
+            clickable = false,
+            html = false,
+            background = null,
+            textColor = null,
+            borderColor = null,
+            darkMode = false,
+            padding = '8px',
+            borderRadius = '4px',
+            maxWidth = '300px'
+        } = options;
 
         function createTooltip() {
             tooltipEl = document.createElement('div');
             tooltipEl.className = 'tooltip-content';
-            tooltipEl.innerHTML = `<pre>${description}</pre>`;
+            tooltipEl.innerHTML = html ? text : `<pre>${text}</pre>`;
             tooltipEl.style.position = 'fixed';
             tooltipEl.style.opacity = '0';
             tooltipEl.style.transition = 'opacity 0.2s ease';
             tooltipEl.style.pointerEvents = clickable ? 'auto' : 'none';
+            tooltipEl.style.backgroundColor = background;
+            tooltipEl.style.color = textColor;
+            tooltipEl.style.borderColor = borderColor;
+            tooltipEl.style.padding = padding;
+            tooltipEl.style.borderRadius = borderRadius;
+            tooltipEl.style.maxWidth = maxWidth;
+            if (darkMode) tooltipEl.classList.add('dark');
             document.body.appendChild(tooltipEl);
         }
 
@@ -178,15 +185,12 @@ export default {
     },
 
     updated(el, binding) {
-        let newDescription;
-        if (typeof binding.value === 'string') {
-            newDescription = binding.value;
-        } else if (typeof binding.value === 'object') {
-            newDescription = binding.value.description;
-        }
+        const options = typeof binding.value === 'object' ? binding.value : { text: binding.value };
+        const { text = '', html = false } = options;
+        
         const tooltipEl = document.querySelector('.tooltip-content');
         if (tooltipEl) {
-            tooltipEl.innerHTML = `<pre>${newDescription}</pre>`;
+          tooltipEl.innerHTML = html ? text : `<pre>${text}</pre>`;
         }
     },
 

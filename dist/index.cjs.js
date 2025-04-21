@@ -16,28 +16,46 @@ var tooltipDirective = {
     var hideTimeout = null;
     var spacing = 10;
     var openedByClick = false;
-    var description, location, clickable;
-    if (typeof binding.value === 'string') {
-      description = binding.value;
-      location = null;
-      clickable = false;
-    } else if (_typeof(binding.value) === 'object') {
-      description = binding.value.description;
-      location = binding.value.location || null;
-      clickable = binding.value.clickable || false;
-    } else {
-      description = '';
-      location = null;
-      clickable = false;
-    }
+    var options = _typeof(binding.value) === 'object' ? binding.value : {
+      text: binding.value
+    };
+    var _options$text = options.text,
+      text = _options$text === void 0 ? '' : _options$text,
+      _options$location = options.location,
+      location = _options$location === void 0 ? null : _options$location,
+      _options$clickable = options.clickable,
+      clickable = _options$clickable === void 0 ? false : _options$clickable,
+      _options$html = options.html,
+      html = _options$html === void 0 ? false : _options$html,
+      _options$background = options.background,
+      background = _options$background === void 0 ? null : _options$background,
+      _options$textColor = options.textColor,
+      textColor = _options$textColor === void 0 ? null : _options$textColor,
+      _options$borderColor = options.borderColor,
+      borderColor = _options$borderColor === void 0 ? null : _options$borderColor,
+      _options$darkMode = options.darkMode,
+      darkMode = _options$darkMode === void 0 ? false : _options$darkMode,
+      _options$padding = options.padding,
+      padding = _options$padding === void 0 ? '8px' : _options$padding,
+      _options$borderRadius = options.borderRadius,
+      borderRadius = _options$borderRadius === void 0 ? '4px' : _options$borderRadius,
+      _options$maxWidth = options.maxWidth,
+      maxWidth = _options$maxWidth === void 0 ? '300px' : _options$maxWidth;
     function createTooltip() {
       tooltipEl = document.createElement('div');
       tooltipEl.className = 'tooltip-content';
-      tooltipEl.innerHTML = "<pre>".concat(description, "</pre>");
+      tooltipEl.innerHTML = html ? text : "<pre>".concat(text, "</pre>");
       tooltipEl.style.position = 'fixed';
       tooltipEl.style.opacity = '0';
       tooltipEl.style.transition = 'opacity 0.2s ease';
       tooltipEl.style.pointerEvents = clickable ? 'auto' : 'none';
+      tooltipEl.style.backgroundColor = background;
+      tooltipEl.style.color = textColor;
+      tooltipEl.style.borderColor = borderColor;
+      tooltipEl.style.padding = padding;
+      tooltipEl.style.borderRadius = borderRadius;
+      tooltipEl.style.maxWidth = maxWidth;
+      if (darkMode) tooltipEl.classList.add('dark');
       document.body.appendChild(tooltipEl);
     }
     function removeTooltip() {
@@ -177,15 +195,16 @@ var tooltipDirective = {
     };
   },
   updated: function updated(el, binding) {
-    var newDescription;
-    if (typeof binding.value === 'string') {
-      newDescription = binding.value;
-    } else if (_typeof(binding.value) === 'object') {
-      newDescription = binding.value.description;
-    }
+    var options = _typeof(binding.value) === 'object' ? binding.value : {
+      text: binding.value
+    };
+    var _options$text2 = options.text,
+      text = _options$text2 === void 0 ? '' : _options$text2,
+      _options$html2 = options.html,
+      html = _options$html2 === void 0 ? false : _options$html2;
     var tooltipEl = document.querySelector('.tooltip-content');
     if (tooltipEl) {
-      tooltipEl.innerHTML = "<pre>".concat(newDescription, "</pre>");
+      tooltipEl.innerHTML = html ? text : "<pre>".concat(text, "</pre>");
     }
   },
   unmounted: function unmounted(el) {
@@ -195,7 +214,7 @@ var tooltipDirective = {
 
 var index = {
   install: function install(app) {
-    app.directive('tooltip', tooltipDirective);
+    app.directive('eh_tooltip', tooltipDirective);
   }
 };
 

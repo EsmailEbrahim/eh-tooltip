@@ -3,6 +3,6 @@ import './EH-Tooltip.css';
 
 export default {
   install(app) {
-    app.directive('tooltip', tooltipDirective);
+    app.directive('eh_tooltip', tooltipDirective);
   }
 };

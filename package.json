@@ -34,5 +34,14 @@
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-css-only": "^4.5.2",
     "rollup-plugin-postcss": "^4.0.2"
-  }
+  },
+  "homepage": "https://github.com/EsmailEbrahim/eh-tooltip",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EsmailEbrahim/eh-tooltip.git"
+  },
+  "bugs": {
+    "url": "https://github.com/EsmailEbrahim/eh-tooltip/issues"
+  },
+  "sideEffects": false
 }
